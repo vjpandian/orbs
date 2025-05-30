@@ -5,8 +5,18 @@ orbs:
 
 commands:
   aws-auth-setup:
+    parameters:
+      aws-region:
+        type: string
+        default: "us-east-1"
+      account-id:
+        type: number
+        default: "999999999999"
+      iam-role:
+        type: string
+        default: "default-aws-role"
     steps:
       - aws-cli/setup:
-            region: << pipeline.parameters.aws-region >>
-            role_arn: "arn:aws:iam::<<pipeline.parameters.account-id>>:role/fieldeng_aws_ci_oidc_oauth_role"
+            region: << parameters.aws-region >>
+            role_arn: "arn:aws:iam::<<parameters.account-id>>:role/<<parameters.iam-role>>"
             role_session_name: "CircleCI-${CIRCLE_WORKFLOW_ID}-${CIRCLE_JOB}"
