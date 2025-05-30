@@ -1,0 +1,12 @@
+version: 2.1
+
+orbs:
+  aws-cli: circleci/aws-cli@5.3.4
+
+commands:
+  aws-auth-setup:
+    steps:
+      - aws-cli/setup:
+            region: << pipeline.parameters.aws-region >>
+            role_arn: "arn:aws:iam::<<pipeline.parameters.account-id>>:role/fieldeng_aws_ci_oidc_oauth_role"
+            role_session_name: "CircleCI-${CIRCLE_WORKFLOW_ID}-${CIRCLE_JOB}"
