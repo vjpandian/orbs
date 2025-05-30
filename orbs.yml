@@ -7,7 +7,7 @@ commands:
         type: string
         default: "us-east-1"
       account-id:
-        type: number
+        type: integer
         default: "999999999999"
       iam-role:
         type: string
