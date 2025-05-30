@@ -1,8 +1,5 @@
 version: 2.1
 
-orbs:
-  aws-cli: circleci/aws-cli@5.3.4
-
 commands:
   aws-auth-setup:
     parameters:
@@ -16,7 +13,4 @@ commands:
         type: string
         default: "default-aws-role"
     steps:
-      - aws-cli/setup:
-            region: << parameters.aws-region >>
-            role_arn: "arn:aws:iam::<<parameters.account-id>>:role/<<parameters.iam-role>>"
-            role_session_name: "CircleCI-${CIRCLE_WORKFLOW_ID}-${CIRCLE_JOB}"
+      - run: echo "hello"
