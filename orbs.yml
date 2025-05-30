@@ -2,15 +2,5 @@ version: 2.1
 
 commands:
   aws-auth-setup:
-    parameters:
-      aws-region:
-        type: string
-        default: "us-east-1"
-      account-id:
-        type: string
-        default: "999999999999"
-      iam-role:
-        type: string
-        default: "default-aws-role"
     steps:
       - run: echo "hello"
