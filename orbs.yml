@@ -8,7 +8,7 @@ commands:
     parameters:
       workspace:
         type: string
-        default: "tf-workspace"
+        default: ""
     steps:
       - run:
            description: Run terraform init and plan for VPC Configuration
