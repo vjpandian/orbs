@@ -24,6 +24,30 @@ commands:
           paths:
             - .
 jobs:
+  cci-stage-tf-apply-destroy:
+    docker:
+      - image: hashicorp/terraform:1.9.2
+    resource_class: medium
+    environment:
+       AWS_DEFAULT_REGION: "us-east-1"
+    parameters:
+      workspace:
+        type: string
+        default: ""
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: run terraform apply
+          command: |
+            cd <<parameters.workspace>>
+            terraform apply -destroy -auto-approve tfapply
+          no_output_timeout: 3h
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+            
   cci-stage-plan-destroy:
     docker:
       - image: hashicorp/terraform:1.9.2
