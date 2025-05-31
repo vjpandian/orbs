@@ -14,6 +14,9 @@ commands:
       - run: echo "hello"
       
   tf-init-plan-vpc:
+    parameters:
+      type: string
+      default: "tf-workspace"
     steps:
       - run:
            description: Run terraform init and plan for VPC Configuration
