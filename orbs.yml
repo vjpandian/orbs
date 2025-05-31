@@ -13,7 +13,7 @@ jobs:
       AMI_NAME_FILTER: "ubuntu-docker-cci-server-*"
       AWS_ACCOUNT_ID: "999999999999"
     steps:
-      - echo "aws auth setup goes here"
+      - run: echo "aws auth setup goes here"
       - run: 
           name: Install jq in container
           command: yum install jq -y
