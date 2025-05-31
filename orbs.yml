@@ -20,4 +20,35 @@ commands:
           root: .
           paths:
             - .
+jobs:
+  cci-stage-plan-destroy:
+    executor: tf-light
+    parameters:
+      workspace:
+        type: string
+        default: "terraform-vpc"
+      cluster-name:
+        type: string
+        default: "fe-default"
+      desired-size:
+        type: integer
+        default: 0
+    steps:
+      - checkout
+      - run:
+          name: terraform init & plan
+          command: |
+            cd <<pipeline.parameters.tf-workspace>>
+            terraform init -input=false
+            terraform state list
+            terraform plan -destroy -out tfapply \
+                    -var="cluster_basename=<<parameters.cluster-name>>" \
+                    -var="aws_region=$AWS_DEFAULT_REGION" \
+                    -var="aws_access_key=$AWS_ACCESS_KEY_ID" \
+                    -var="aws_secret_key=$AWS_SECRET_ACCESS_KEY" \
+                    -var="ng_default_desired_size=<<parameters.desired-size>>"
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
     
