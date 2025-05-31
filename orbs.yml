@@ -1,13 +1,4 @@
 version: 2.1
-
-executors:
-  tf-light:
-    docker:
-      - image: hashicorp/terraform:1.9.2
-    resource_class: medium
-    environment:
-       AWS_DEFAULT_REGION: "us-east-1"
-
 commands:
   aws-auth-setup:
     steps:
@@ -33,7 +24,11 @@ commands:
             - .
 jobs:
   cci-stage-plan-destroy:
-    executor: vjpandian-orbs/tf-light
+    docker:
+      - image: hashicorp/terraform:1.9.2
+    resource_class: medium
+    environment:
+       AWS_DEFAULT_REGION: "us-east-1"
     parameters:
       workspace:
         type: string
