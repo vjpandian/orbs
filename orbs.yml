@@ -38,7 +38,7 @@ jobs:
       - run:
           name: terraform init & plan
           command: |
-            cd <<pipeline.parameters.tf-workspace>>
+            cd <<parameters.workspace>>
             terraform init -input=false
             terraform state list
             terraform plan -destroy -out tfapply \
