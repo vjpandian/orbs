@@ -33,7 +33,7 @@ commands:
             - .
 jobs:
   cci-stage-plan-destroy:
-    executor: tf-light
+    executor: vjpandian-orbs/tf-light
     parameters:
       workspace:
         type: string
