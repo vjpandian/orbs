@@ -11,9 +11,9 @@ jobs:
       - image: public.ecr.aws/aws-cli/aws-cli:2.26.5
     environment:
       AMI_NAME_FILTER: "ubuntu-docker-cci-server-*"
-      AWS_ACCOUNT_ID: "992382483259"
+      AWS_ACCOUNT_ID: "999999999999"
     steps:
-      - fe-aws/aws-auth-setup
+      - echo "aws auth setup goes here"
       - run: 
           name: Install jq in container
           command: yum install jq -y
