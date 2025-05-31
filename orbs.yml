@@ -4,31 +4,15 @@ commands:
   aws-auth-setup:
     steps:
       - run: echo "hello"
-
-jobs:
-  ami-cleanup-job:
-    docker:
-      - image: public.ecr.aws/aws-cli/aws-cli:2.26.5
-    environment:
-      AMI_NAME_FILTER: "ubuntu-docker-cci-server-*"
-      AWS_ACCOUNT_ID: "999999999999"
+      
+  tf-init-plan-vpc:
     steps:
-      - run: echo "aws auth setup goes here"
-      - run: 
-          name: Install jq in container
-          command: yum install jq -y
-      - run: 
-         name: Fetch AMIs
-         command: |
-            OWNER_ID=$(aws sts get-caller-identity --query Account --output text)
-            # Get all AMIs owned by you, sorted by CreationDate descending
-            images=$(aws ec2 describe-images \
-                           --owners "$AWS_ACCOUNT_ID" \
-                          --filters "Name=name,Values=$AMI_NAME_FILTER" \
-                          --query 'Images[*].{ID:ImageId,Date:CreationDate}' \
-                          --output json | jq -r '. | sort_by(.Date) | reverse')
-                      
-            # Count how many AMIs we have
-            echo $images
-            total=$(echo "$images" | jq length)
-            echo "Total AMIs: $total"
+      - run:
+           description: Run terraform init and plan for VPC Configuration
+           name: terraform init & plan
+           command: |
+              cd <<pipeline.parameters.tf-workspace>>
+              terraform init -input=false
+              terraform plan -out tfapply -var="aws_region=$AWS_DEFAULT_REGION" \
+                    -var="aws_access_key=$AWS_ACCESS_KEY_ID" \
+                    -var="aws_secret_key=$AWS_SECRET_ACCESS_KEY"
