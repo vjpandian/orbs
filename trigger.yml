@@ -7,11 +7,17 @@ jobs:
     parameters:
       pipeline-definition-id:
         type: string
+      branch-name:
+        type: string
+      param-name:
+        type: string
+      project-slug:
+        type: string
     steps:
       - run: 
           name: Trigger new Pipeline
           command: |
-              curl -X POST https://circleci.com/api/v2/project/<project-slug>/pipeline/run \
+              curl -X POST https://circleci.com/api/v2/project/<<parameters.project-slug>>/pipeline/run \
                    --header "Circle-Token: $CIRCLE_TOKEN" \
                    --header "content-type: application/json" \
-                   --data '{"definition_id": "<<parameters.pipeline-defintion-id>>", "config": {"branch": "<your-branch-name>"},"checkout": {"branch": "<your-branch-name>"}"parameters": {"<param-name>": "<param-value>"}}'
+                   --data '{"definition_id": "<<parameters.pipeline-defintion-id>>", "config": {"branch": "<<parameters.branch-name>>"},"checkout": {"branch": "<<parameters.branch-name>>"}"parameters": {"<<parameters.param-name>>": "<<parameters.param-value>>"}}'
